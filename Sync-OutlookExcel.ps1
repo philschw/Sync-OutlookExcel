@@ -25,6 +25,8 @@
                                         Non protected entries will be deleted and recreated or just deleted if they were deleted in Excel.
                                         Logging can now be switched to non-verbose for small log files
             18.04.18 Philip Schwander - Added support for all day events
+            23.07.18 Philip Schwander - Changed code to work with new spreadsheet design (Cell for year has moved, some more exeptions, client list has moved)
+            24.07.18 Philip Schwander - Appointments weren't deleted anymore. Line 253 removed hashtag to include the delete statement
             
         © Upgreat AG
     .COMPONENT
@@ -529,7 +531,7 @@ Foreach($Filepath in $FileList) {
                         if($Appointment.BillingInformation -eq ($SyncManagedFlag + $ToD) -and -not ($Appointment.Subject -like $HashtagRegex)) {  ### To match the exact time: -and ($Appointment.Start -eq [datetime]("$i/$j/" + $PlanningYear.Year + $StartTime) -and ($Appointment.End -eq [datetime]("$i/$j/" + $PlanningYear.Year + $EndTime)))
                             Write-Log -Level INFO -Message ("Existing entry found $i/$j/" + $PlanningYear.Year + " with Subject " + $Appointment.Subject + "  which has been deleted in Excel. Deleting it in Outlook") -logfile $LogFile
                             Write-Host "Deleting " + $Appointment.Subject
-                            #$Appointment.Delete()
+                            $Appointment.Delete()
                         }
                     }
                 }
